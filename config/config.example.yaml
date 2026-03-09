@@ -1,0 +1,106 @@
+# Theme Anchor Agent Configuration Template
+# Copy this file to config.yaml and fill in your settings
+
+# LLM Configuration
+llm:
+  # LLM provider: openai, zhipu, qwen
+  # - openai: OpenAI GPT models (GPT-4, GPT-3.5-turbo)
+  # - zhipu: 智谱AI GLM models (GLM-4, GLM-4-flash)
+  # - qwen: 阿里通义千问 (qwen-turbo, qwen-plus, qwen-max)
+  provider: "zhipu"
+  
+  # API configuration
+  api_key: "YOUR_API_KEY_HERE"  # Replace with your actual API key
+  api_base: ""  # Optional: custom API endpoint (leave empty for default)
+  
+  # Model settings
+  model_name: "glm-4-flash"  # Model name depends on provider
+  temperature: 0.7  # Creativity level (0.0-1.0, higher = more creative)
+  max_tokens: null  # Maximum tokens in response (null = no limit)
+  timeout: null  # Request timeout in seconds (null = no limit)
+  
+  # Retry settings
+  max_retries: 3  # Number of retries on API failure
+  retry_delay: 1.0  # Delay between retries in seconds
+
+# Data Source Configuration
+data_source:
+  # Primary data source (kaipanla)
+  primary:
+    enabled: true
+    timeout: 30  # Request timeout in seconds
+    max_retries: 3  # Number of retries on failure
+  
+  # Fallback data source (akshare)
+  fallback:
+    enabled: true
+    timeout: 30  # Request timeout in seconds
+
+# Analysis Parameters
+analysis:
+  # Sector filtering thresholds
+  sector_filter:
+    high_strength_threshold: 8000  # High strength threshold (cumulative limit-up count)
+    medium_strength_threshold: 2000  # Medium strength threshold
+    target_sector_count: 7  # Target number of sectors to analyze
+    ndays: 7  # Number of days for strength calculation
+  
+  # Correlation analysis parameters
+  correlation:
+    time_lag_threshold: 10  # Time lag threshold in minutes
+    leading_time_min: 5  # Minimum leading time for pioneer sectors (minutes)
+    leading_time_max: 10  # Maximum leading time for pioneer sectors (minutes)
+    resonance_elasticity_threshold: 3.0  # Elasticity threshold for resonance detection
+    market_change_threshold: 0.01  # Market change threshold (1%)
+  
+  # Capacity analysis parameters
+  capacity:
+    large_cap_turnover_threshold: 30  # Large cap threshold (100M CNY)
+    leading_stock_turnover_threshold: 30  # Leading stock turnover threshold (100M CNY)
+  
+  # Emotion cycle parameters
+  emotion_cycle:
+    blown_board_rate_high: 0.20  # Blown board rate upper limit for climax stage (20%)
+    blown_board_rate_divergence: 0.30  # Blown board rate lower limit for divergence stage (30%)
+
+# Historical Data Storage
+history:
+  storage_path: "data/history"  # Path to store historical data
+  file_format: "csv"  # Storage format (csv)
+  retention_days: 90  # Number of days to retain historical data
+
+# Output Configuration
+output:
+  report_dir: "output/reports"  # Directory for generated reports
+  format: ["markdown", "json"]  # Supported output formats
+  include_charts: false  # Whether to include charts (future feature)
+
+# Logging Configuration
+logging:
+  level: "INFO"  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/theme_anchor_agent.log"  # Log file path
+  max_bytes: 10485760  # Maximum log file size (10MB)
+  backup_count: 5  # Number of backup log files to keep
+  console_output: true  # Whether to output logs to console
+
+# Prompt Templates Configuration
+prompts:
+  template_dir: "prompts"  # Directory containing prompt templates
+  context_max_tokens: 8000  # Maximum tokens for LLM context
+
+# Provider-specific Model Names Reference:
+# OpenAI:
+#   - gpt-4
+#   - gpt-4-turbo
+#   - gpt-3.5-turbo
+# 
+# 智谱AI (Zhipu):
+#   - glm-4
+#   - glm-4-flash
+#   - glm-3-turbo
+# 
+# 通义千问 (Qwen):
+#   - qwen-turbo
+#   - qwen-plus
+#   - qwen-max
